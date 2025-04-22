@@ -1,4 +1,4 @@
-# Threat Model Playbook: Amazon RDS, SQL Server (PII) via VPC
+# Threat Model Playbook: Amazon RDS, SQL Server (PII) via VPC 
 Linkedin: https://www.linkedin.com/in/mr-lopeza/
 Asset: Amazon RDS for SQL Server instance storing critical customer PII.
 Environment: AWS VPC (Assumed private access from web application).
