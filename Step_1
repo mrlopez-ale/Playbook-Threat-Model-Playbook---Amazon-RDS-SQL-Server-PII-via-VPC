@@ -1,6 +1,14 @@
 # Code Step 1
-
+Step 1: Vulnerable Python/Flask Code (SQLi)
 # app.py
+# This code demonstrates a simple Flask application with a SQL injection vulnerability.
+# The application uses an in-memory SQLite database to store product information.
+# The vulnerability is present in the endpoint that retrieves product details based on a user-provided ID.
+# The code is intentionally insecure to demonstrate the SQL injection vulnerability.
+# It is not intended for production use and should be secured before deployment.
+# The code includes logging for better traceability and debugging.
+# Import necessary libraries
+
 import sqlite3
 from flask import Flask, request, jsonify
 import logging # Added for logging
@@ -111,4 +119,3 @@ if __name__ == '__main__':
         # Run the app in debug mode (provides automatic reloading and more detailed error pages)
         # Note: Debug mode should NOT be used in production environments.
         app.run(debug=True)
-
