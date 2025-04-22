@@ -1,4 +1,4 @@
-# Threat Model Playbook: Amazon RDS, SQL Server (PII) via VPC 
+# Vulnerability & Secure Coding Playbook - Python, SQL Injection vulnerability
 Python SQL Injection Vulnerability Reproduction & Secure Coding Demo
 Linkedin: https://www.linkedin.com/in/mr-lopeza/
 
