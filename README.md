@@ -1,2 +1,2 @@
-# Vulnerability-Reproduction-Secure-Coding-Patterns---Python-SQL-Injection-vulnerability
-Isolate a specific, well-understood vulnerability (SQL Injection) in a manageable piece of code
+# Vulnerability-Reproduction-Secure-Coding-Patterns---Python-SQL-Injection-vulnerability]
+Linkedin: https://www.linkedin.com/in/mr-lopeza/
