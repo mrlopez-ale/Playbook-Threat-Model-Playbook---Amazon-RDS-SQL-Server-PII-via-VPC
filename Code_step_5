@@ -1,0 +1,126 @@
+# Step 5:  Implement Fix
+
+# app_fixed.py
+# Contains both the original vulnerable function and the fixed version.
+import sqlite3
+from flask import Flask, request, jsonify
+import logging
+
+app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
+
+# --- Database Setup (Same as before) ---
+def init_db():
+    """Initializes an in-memory SQLite database with a products table."""
+    conn = sqlite3.connect(':memory:', check_same_thread=False)
+    cursor = conn.cursor()
+    try:
+        cursor.execute("CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT, price REAL)")
+        cursor.execute("INSERT INTO products (id, name, price) VALUES (?, ?, ?)", (1, 'Gadget', 19.99))
+        cursor.execute("INSERT INTO products (id, name, price) VALUES (?, ?, ?)", (2, 'Widget', 25.50))
+        conn.commit()
+        logging.info("In-memory database initialized.")
+    except sqlite3.Error as e:
+        logging.error(f"Database initialization error: {e}")
+        raise
+    return conn
+
+try:
+    db_conn = init_db()
+except sqlite3.Error:
+    db_conn = None
+    logging.error("FATAL: Failed to initialize database connection.")
+
+# --- VULNERABLE ENDPOINT (For Comparison) ---
+@app.route('/product_vulnerable/<product_id>')
+def get_product_vulnerable(product_id):
+    """
+    Fetches product by ID - VULNERABLE TO SQL INJECTION.
+    Uses f-string formatting directly with user input.
+    """
+    if not db_conn:
+        return jsonify({"error": "Database connection not available"}), 503
+
+    cursor = db_conn.cursor()
+    # !!! VULNERABLE LINE !!!
+    query = f"SELECT id, name, price FROM products WHERE id = {product_id}"
+    # !!! END VULNERABLE LINE !!!
+    try:
+        app.logger.info(f"[Vulnerable] Executing query: {query}")
+        cursor.execute(query)
+        product = cursor.fetchone()
+        if product:
+            return jsonify({"id": product[0], "name": product[1], "price": product[2]})
+        else:
+            if not product_id.isdigit():
+                 app.logger.warning(f"[Vulnerable] Non-numeric product_id received: {product_id}")
+            return jsonify({"error": "Product not found"}), 404
+    except sqlite3.Error as e:
+        app.logger.error(f"[Vulnerable] Database error for query '{query}' with input '{product_id}': {e}")
+        return jsonify({"error": "Database query failed due to invalid input or syntax"}), 500
+    finally:
+        if cursor:
+           cursor.close()
+
+# --- SECURE ENDPOINT (The Fix) ---
+@app.route('/product_secure/<product_id>')
+def get_product_secure(product_id):
+    """
+    Fetches product by ID - SECURE against SQL Injection.
+    Uses parameterized queries to handle user input safely.
+    """
+    if not db_conn:
+        return jsonify({"error": "Database connection not available"}), 503
+
+    cursor = db_conn.cursor()
+
+    # !!! SECURE CODE !!!
+    # Define the SQL query using a placeholder (?) for the user-provided value.
+    query = "SELECT id, name, price FROM products WHERE id = ?"
+    # !!! END SECURE CODE !!!
+
+    try:
+        # Execute the query, passing the user input as a separate parameter tuple.
+        # The database driver (sqlite3) handles quoting and escaping, preventing injection.
+        # It treats product_id strictly as data, not executable SQL.
+        app.logger.info(f"[Secure] Executing query with parameter: {product_id}")
+        cursor.execute(query, (product_id,)) # Note the comma to make it a tuple
+        product = cursor.fetchone()
+
+        if product:
+            return jsonify({"id": product[0], "name": product[1], "price": product[2]})
+        else:
+             # Optional: Basic input validation can add another layer, but parameterization is the core fix.
+             # try:
+             #     int(product_id) # Check if it can be converted to an integer
+             # except ValueError:
+             #     app.logger.warning(f"[Secure] Invalid non-integer product_id received: {product_id}")
+             #     return jsonify({"error": "Invalid product ID format"}), 400
+
+            return jsonify({"error": "Product not found"}), 404
+
+    except sqlite3.Error as e:
+        # Log potential errors (e.g., if DB connection lost), but injection errors are prevented.
+        app.logger.error(f"[Secure] Database error for query with input '{product_id}': {e}")
+        # It's less likely to get syntax errors from user input here.
+        # Could still get errors if product_id is not a type compatible with the 'id' column after driver handling.
+        return jsonify({"error": "Database query failed"}), 500
+    finally:
+        if cursor:
+           cursor.close()
+
+# --- Main execution block ---
+if __name__ == '__main__':
+    if not db_conn:
+        print("ERROR: Could not initialize database. Exiting.")
+    else:
+        print("="*50)
+        print("Database initialized successfully.")
+        print("Starting Flask development server...")
+        print("Vulnerable endpoint: http://127.0.0.1:5000/product_vulnerable/<id>")
+        print("  Try injection:   http://127.0.0.1:5000/product_vulnerable/1%20OR%201=1")
+        print("Secure endpoint:   http://127.0.0.1:5000/product_secure/<id>")
+        print("  Try same input:  http://127.0.0.1:5000/product_secure/1%20OR%201=1 (Should fail safely)")
+        print("Press CTRL+C to stop the server.")
+        print("="*50)
+        app.run(debug=True)
