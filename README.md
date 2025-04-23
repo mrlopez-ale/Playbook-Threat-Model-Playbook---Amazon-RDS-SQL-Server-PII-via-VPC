@@ -2,22 +2,12 @@
 
 Linkedin: https://www.linkedin.com/in/mr-lopeza/
 
-Overview
-This project demonstrates a common SQL Injection (SQLi) vulnerability within a simple Python Flask web application. It follows a structured playbook to:
-
-Create vulnerable code.
-
-Detect the vulnerability using SAST (Bandit) and manual review.
-
-Document the vulnerability, exploit, and impact.
-
-Implement a secure fix using parameterized queries.
-
-Verify the fix.
-
-Document the secure coding pattern applied.
-
-Goal: To provide a clear example of identifying, understanding, fixing, and verifying an SQL Injection vulnerability, reinforcing secure coding practices.
+Objective: 
+Understand: Recognize the critical security risks posed by hardcoded secrets.
+Identify: Learn effective methods and tools to detect secrets in code and commit history.
+Secure: Implement secure patterns (environment variables, secrets managers, etc.) for handling secrets, replacing hardcoding.
+Prevent: Adopt strategies (automated checks, training, policies) to stop secrets from being hardcoded in the future.
+Remediate: Follow clear steps to address discovered secrets, including rotation and cleanup.
 
 Vulnerability Details: SQL Injection (CWE-89)
 File: app.py
