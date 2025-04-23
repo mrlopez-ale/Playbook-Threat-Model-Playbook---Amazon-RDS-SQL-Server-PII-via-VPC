@@ -1,5 +1,4 @@
-# Playbook: Threat Model Playbook - Amazon RDS, SQL Server (PII) via VPC 
-# PASTA & STRIDE Framework
+# Playbook: Threat Model Playbook - Amazon RDS, SQL Server (PII) via VPC - PASTA & STRIDE Framework
 Linkedin: https://www.linkedin.com/in/mr-lopeza/
 
 ## Objective: 
