@@ -3,11 +3,11 @@
 Linkedin: https://www.linkedin.com/in/mr-lopeza/
 
 Objective: 
-Understand: Recognize the critical security risks posed by hardcoded secrets.
-Identify: Learn effective methods and tools to detect secrets in code and commit history.
-Secure: Implement secure patterns (environment variables, secrets managers, etc.) for handling secrets, replacing hardcoding.
-Prevent: Adopt strategies (automated checks, training, policies) to stop secrets from being hardcoded in the future.
-Remediate: Follow clear steps to address discovered secrets, including rotation and cleanup.
+* **Understand: Recognize the critical security risks posed by hardcoded secrets.
+* **Identify: Learn effective methods and tools to detect secrets in code and commit history.
+* **Secure: Implement secure patterns (environment variables, secrets managers, etc.) for handling secrets, replacing hardcoding.
+* **Prevent: Adopt strategies (automated checks, training, policies) to stop secrets from being hardcoded in the future.
+* **Remediate: Follow clear steps to address discovered secrets, including rotation and cleanup.
 
 Vulnerability Details: SQL Injection (CWE-89)
 File: app.py
