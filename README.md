@@ -1,8 +1,7 @@
 # Playbook: Threat Model Playbook - Amazon RDS, SQL Server (PII) via VPC
-
 Linkedin: https://www.linkedin.com/in/mr-lopeza/
 
-Objective: 
+##Objective: 
 * Understand: Recognize the critical security risks posed by hardcoded secrets.
 * Identify: Learn effective methods and tools to detect secrets in code and commit history.
 * Secure: Implement secure patterns (environment variables, secrets managers, etc.) for handling secrets, replacing hardcoding.
