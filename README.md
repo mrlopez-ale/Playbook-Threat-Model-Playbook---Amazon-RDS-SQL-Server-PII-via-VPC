@@ -1,6 +1,5 @@
 # Playbook Secure Coding - Python, SQL Injection Vulnerability
 
-Python SQL Injection Vulnerability Reproduction & Secure Coding Demo
 Linkedin: https://www.linkedin.com/in/mr-lopeza/
 
 Overview
