@@ -1,4 +1,4 @@
-# Playbook Secure Coding - Python, SQL Injection Vulnerability
+# Playbook - Secure Coding - Python, SQL Injection Vulnerability
 
 Linkedin: https://www.linkedin.com/in/mr-lopeza/
 
